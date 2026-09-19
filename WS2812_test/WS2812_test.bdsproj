@@ -131,7 +131,7 @@
           <property category="win32.*.win32b.bcc32" name="option.align-2.enabled" value="0"/>
           <property category="win32.*.win32b.bcc32" name="option.align-3.enabled" value="0"/>
           <property category="win32.*.win32b.bcc32" name="option.align-5.enabled" value="0"/>
-          <property category="win32.*.win32b.bcc32" name="option.b.enabled" value="1"/>
+          <property category="win32.*.win32b.bcc32" name="option.b.enabled" value="0"/>
           <property category="win32.*.win32b.bcc32" name="option.disablewarns.enabled" value="0"/>
           <property category="win32.*.win32b.bcc32" name="option.noregistervars.enabled" value="0"/>
           <property category="win32.*.win32b.bcc32" name="option.p.enabled" value="0"/>
