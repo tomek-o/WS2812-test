@@ -65,7 +65,7 @@ object frmWS2812AudioVisualisation: TfrmWS2812AudioVisualisation
     Width = 232
     Height = 21
     Style = csDropDownList
-    ItemHeight = 0
+    ItemHeight = 13
     TabOrder = 1
     OnChange = cbAudioDeviceChange
   end
@@ -116,5 +116,11 @@ object frmWS2812AudioVisualisation: TfrmWS2812AudioVisualisation
     OnTimer = tmrWriteTimer
     Left = 16
     Top = 144
+  end
+  object tmrStartup: TTimer
+    Interval = 100
+    OnTimer = tmrStartupTimer
+    Left = 416
+    Top = 40
   end
 end

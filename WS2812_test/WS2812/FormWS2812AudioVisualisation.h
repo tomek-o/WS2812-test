@@ -31,6 +31,7 @@ __published:	// IDE-managed Components
 	TComboBox *cbSource;
 	TLabel *lblDevice;
 	TImage *image;
+	TTimer *tmrStartup;
 	void __fastcall btnStartClick(TObject *Sender);
 	void __fastcall btnStopClick(TObject *Sender);
 	void __fastcall tmrWriteTimer(TObject *Sender);
@@ -38,6 +39,7 @@ __published:	// IDE-managed Components
 	void __fastcall cbAudioDeviceChange(TObject *Sender);
 	void __fastcall btnRefreshDevicesClick(TObject *Sender);
 	void __fastcall cbSourceChange(TObject *Sender);
+	void __fastcall tmrStartupTimer(TObject *Sender);
 private:	// User declarations
 	WasapiLoopbackCapture capture;
 	float smoothedLeft, smoothedRight;

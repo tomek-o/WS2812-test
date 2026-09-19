@@ -52,7 +52,6 @@ __fastcall TfrmWS2812AudioVisualisation::TfrmWS2812AudioVisualisation(TComponent
 	trbarGain->Max = AudioVisualisationConf::MAX_GAIN_X10;
 	cbSource->ItemIndex = appSettings.audioVisualisation.audioInput ? 1 : 0;
 	UpdateUi();
-	RefreshDeviceList();
 }
 //---------------------------------------------------------------------------
 
@@ -415,3 +414,11 @@ void __fastcall TfrmWS2812AudioVisualisation::cbSourceChange(TObject *Sender)
 	RefreshDeviceList();
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TfrmWS2812AudioVisualisation::tmrStartupTimer(TObject *Sender)
+{
+	tmrStartup->Enabled = false;
+	RefreshDeviceList();
+}
+//---------------------------------------------------------------------------
+
