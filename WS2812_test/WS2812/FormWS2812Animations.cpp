@@ -6,7 +6,7 @@
 #include "FormWS2812Animations.h"
 #include "TabManager.h"
 #include "Settings.h"
-#include "BtnController.h"
+#include "common/BtnController.h"
 #include "AppStatus.h"
 #include "ComPort.h"
 

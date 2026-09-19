@@ -12,6 +12,9 @@
 #include <ComCtrls.hpp>
 #include <ExtCtrls.hpp>
 
+class TfraLogConf;
+class TfraAudioVisualisationConf;
+
 class TfrmSettings : public TForm
 {
 __published:	// IDE-managed Components
@@ -21,10 +24,10 @@ __published:	// IDE-managed Components
 	TPageControl *pages;
 	TTabSheet *tsGeneral;
 	TTabSheet *tsLogging;
+	TTabSheet *tsAudioVisualisation;
 	TCheckBox *chbAlwaysOnTop;
-	TLabel *lblUiCapacity;
-	TComboBox *cmbMaxUiLogLines;
-	TCheckBox *chbLogToFile;
+	TCheckBox *chbStartMinimizedToTray;
+	TCheckBox *chbAutostart;
 	TTabSheet *tsSerialPort;
 	TCheckBox *chbSerialPortOpenAtStartup;
 	TCheckBox *chbSerialPortAutoReinit;
@@ -38,14 +41,15 @@ __published:	// IDE-managed Components
 	void __fastcall btnCancelClick(TObject *Sender);
 	void __fastcall btnApplyClick(TObject *Sender);
 	void __fastcall chbAlwaysOnTopClick(TObject *Sender);
-	void __fastcall cmbMaxUiLogLinesChange(TObject *Sender);
 	void __fastcall FormKeyPress(TObject *Sender, char &Key);
 private:	// User declarations
-
+	void GetAutostartIdentity(AnsiString &name, AnsiString &command);
 public:		// User declarations
 	__fastcall TfrmSettings(TComponent* Owner);
 	Settings *appSettings;
 	Settings tmpSettings;
+	TfraLogConf *fraLogConf;
+	TfraAudioVisualisationConf *fraAudioVisualisationConf;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TfrmSettings *frmSettings;

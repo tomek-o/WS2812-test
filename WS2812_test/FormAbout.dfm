@@ -345,11 +345,11 @@ object frmAbout: TfrmAbout
     object lblCopyright: TLabel
       Left = 8
       Top = 325
-      Width = 368
+      Width = 395
       Height = 13
       Caption = 
-        'Copyright '#169'  2024 Tomasz Ostrowski, distributed under BSD 3-Clau' +
-        'se License'
+        'Copyright '#169'  2024-2026 Tomasz Ostrowski, distributed under BSD 3' +
+        '-Clause License'
       IsControl = True
     end
     object lblVersion: TLabel
@@ -481,27 +481,27 @@ object frmAbout: TfrmAbout
         'json-cpp license:'#10
         
           '================================================================' +
-          '============='#10
-        #10
+          '============='#10#13#10#10
+        ''
         
           'The JsonCpp library'#39's source code, including accompanying docume' +
           'ntation, tests and demonstration '
-        'applications, are licensed under the following conditions...'#10
-        #10
+        'applications, are licensed under the following conditions...'#10#13#10#10
+        ''
         
           'The author (Baptiste Lepilleur) explicitly disclaims copyright i' +
           'n all jurisdictions which recognize such a '
         
           'disclaimer. In such jurisdictions, this software is released int' +
-          'o the Public Domain.'#10
-        #10
+          'o the Public Domain.'#10#13#10#10
+        ''
         
           'In jurisdictions which do not recognize Public Domain property (' +
           'e.g. Germany as of 2010), this software is '
         
           'Copyright (c) 2007-2010 by Baptiste Lepilleur, and is released u' +
-          'nder the terms of the MIT License.'#10
-        #10
+          'nder the terms of the MIT License.'#10#13#10#10
+        ''
         
           'In jurisdictions which recognize Public Domain property, the use' +
           'r of this software may choose to accept it '
@@ -510,13 +510,13 @@ object frmAbout: TfrmAbout
           'icense (see below), or 3) under the terms '
         
           'of dual Public Domain/MIT License conditions described here, as ' +
-          'they choose.'#10
-        #10
+          'they choose.'#10#13#10#10
+        ''
         
           'The MIT License is about as close to Public Domain as a license ' +
           'can get, and is described in clear, '
-        'concise terms at:'#10
-        #10
+        'concise terms at:'#10#13#10#10
+        ''
         '   http://en.wikipedia.org/wiki/MIT_License  ')
       ReadOnly = True
       ScrollBars = ssVertical

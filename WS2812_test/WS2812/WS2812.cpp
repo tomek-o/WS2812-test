@@ -66,7 +66,7 @@ int Ws2812Write(const std::vector<Ws2812Color> &colors)
 		ptr += 8;
 	}
 
-#if 1
+#if 0
 	AnsiString bytesText = "Bytes TX: ";
 	for (unsigned int i=0; i<output.size(); i++)
 	{

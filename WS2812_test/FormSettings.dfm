@@ -4,8 +4,8 @@ object frmSettings: TfrmSettings
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Settings'
-  ClientHeight = 251
-  ClientWidth = 341
+  ClientHeight = 475
+  ClientWidth = 499
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,26 +20,31 @@ object frmSettings: TfrmSettings
   TextHeight = 13
   object pnlBottom: TPanel
     Left = 0
-    Top = 214
-    Width = 341
+    Top = 438
+    Width = 499
     Height = 37
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
+    DesignSize = (
+      499
+      37)
     object btnCancel: TButton
-      Left = 258
+      Left = 418
       Top = 6
       Width = 75
       Height = 25
+      Anchors = [akTop, akRight]
       Caption = 'Cancel'
       TabOrder = 1
       OnClick = btnCancelClick
     end
     object btnApply: TButton
-      Left = 177
+      Left = 337
       Top = 6
       Width = 75
       Height = 25
+      Anchors = [akTop, akRight]
       Caption = 'Apply'
       TabOrder = 0
       OnClick = btnApplyClick
@@ -48,8 +53,8 @@ object frmSettings: TfrmSettings
   object pages: TPageControl
     Left = 0
     Top = 0
-    Width = 341
-    Height = 214
+    Width = 499
+    Height = 438
     ActivePage = tsSerialPort
     Align = alClient
     TabOrder = 0
@@ -64,6 +69,26 @@ object frmSettings: TfrmSettings
         TabOrder = 0
         OnClick = chbAlwaysOnTopClick
       end
+      object chbStartMinimizedToTray: TCheckBox
+        Left = 3
+        Top = 26
+        Width = 325
+        Height = 17
+        Caption = 'Start minimized to tray'
+        TabOrder = 1
+      end
+      object chbAutostart: TCheckBox
+        Left = 3
+        Top = 49
+        Width = 325
+        Height = 17
+        Caption = 'Run automatically at login (autostart)'
+        TabOrder = 2
+      end
+    end
+    object tsLogging: TTabSheet
+      Caption = 'Logging'
+      ImageIndex = 1
     end
     object tsSerialPort: TTabSheet
       Caption = 'Serial Port / WS2812'
@@ -134,47 +159,17 @@ object frmSettings: TfrmSettings
           '4'
           '8'
           '16'
+          '24'
           '32'
+          '40'
+          '48'
+          '56'
           '64')
       end
     end
-    object tsLogging: TTabSheet
-      Caption = 'Logging'
-      ImageIndex = 1
-      object lblUiCapacity: TLabel
-        Left = 5
-        Top = 26
-        Width = 194
-        Height = 13
-        Caption = 'Visible (buffered) log lines in log window:'
-      end
-      object cmbMaxUiLogLines: TComboBox
-        Left = 216
-        Top = 23
-        Width = 111
-        Height = 21
-        Style = csDropDownList
-        ItemHeight = 13
-        TabOrder = 0
-        OnChange = cmbMaxUiLogLinesChange
-        Items.Strings = (
-          '100'
-          '200'
-          '500'
-          '1000'
-          '2000'
-          '5000'
-          '10000')
-      end
-      object chbLogToFile: TCheckBox
-        Left = 5
-        Top = 3
-        Width = 325
-        Height = 17
-        Caption = 'Log to file'
-        TabOrder = 1
-        OnClick = chbAlwaysOnTopClick
-      end
+    object tsAudioVisualisation: TTabSheet
+      Caption = 'Audio visualisation'
+      ImageIndex = 3
     end
   end
 end

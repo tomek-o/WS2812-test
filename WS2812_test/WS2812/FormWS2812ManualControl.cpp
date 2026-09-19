@@ -6,7 +6,7 @@
 #include "FormWS2812ManualControl.h"
 #include "TabManager.h"
 #include "Settings.h"
-#include "BtnController.h"
+#include "common/BtnController.h"
 #include "AppStatus.h"
 #include "ComPort.h"
 
@@ -67,7 +67,7 @@ void TfrmWS2812ManualControl::SetLedCount(unsigned int ledCount)
 void __fastcall TfrmWS2812ManualControl::gridDrawCell(TObject *Sender, int ACol,
       int ARow, TRect &Rect, TGridDrawState State)
 {
-	if (ARow < 1)
+	if (ARow < 1 || ARow > static_cast<int>(appSettings.ws2812.manualControl.size()))
 		return;
 	if (ACol == 4)
 	{

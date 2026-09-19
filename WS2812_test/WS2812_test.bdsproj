@@ -108,13 +108,14 @@
           <property category="win32.*.win32b.bcc32" name="option.H=.arg.merge" value="1"/>
           <property category="win32.*.win32b.bcc32" name="option.H=.enabled" value="1"/>
           <property category="win32.*.win32b.bcc32" name="option.Hc.enabled" value="1"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.1" value="WS2812"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.2" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.1" value="Wasapi"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.2" value="WS2812"/>
           <property category="win32.*.win32b.bcc32" name="option.I.arg.3" value="$(BDS)\include"/>
           <property category="win32.*.win32b.bcc32" name="option.I.arg.4" value="$(BDS)\include\dinkumware"/>
           <property category="win32.*.win32b.bcc32" name="option.I.arg.5" value="$(BDS)\include\vcl"/>
           <property category="win32.*.win32b.bcc32" name="option.I.arg.6" value="..\jsoncpp\include"/>
           <property category="win32.*.win32b.bcc32" name="option.I.arg.7" value="..\"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.8" value="logging"/>
           <property category="win32.*.win32b.bcc32" name="option.I.arg.merge" value="1"/>
           <property category="win32.*.win32b.bcc32" name="option.I.enabled" value="1"/>
           <property category="win32.*.win32b.bcc32" name="option.Jgi.enabled" value="0"/>
@@ -169,33 +170,43 @@
           <property category="win32.*.win32b.bcc32" name="option.wuse.enabled" value="1"/>
           <property category="win32.*.win32b.brcc32" name="option.16.enabled" value="0"/>
           <property category="win32.*.win32b.brcc32" name="option.31.enabled" value="0"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.1" value="WS2812"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.2" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.3" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.1" value="Wasapi"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.2" value="WS2812"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.3" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.4" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.5" value="logging"/>
           <property category="win32.*.win32b.dcc32" name="option.I.arg.merge" value="1"/>
           <property category="win32.*.win32b.dcc32" name="option.I.enabled" value="0"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.1" value="WS2812"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.2" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.3" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.1" value="logging"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.2" value="Wasapi"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.3" value="WS2812"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.4" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.5" value="..\_PROJEKTY\turbocpp_template"/>
           <property category="win32.*.win32b.dcc32" name="option.O.arg.merge" value="1"/>
           <property category="win32.*.win32b.dcc32" name="option.O.enabled" value="0"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.1" value="WS2812"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.2" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.3" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.1" value="logging"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.2" value="Wasapi"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.3" value="WS2812"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.4" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.5" value="..\_PROJEKTY\turbocpp_template"/>
           <property category="win32.*.win32b.dcc32" name="option.R.arg.merge" value="1"/>
           <property category="win32.*.win32b.dcc32" name="option.R.enabled" value="0"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.1" value="WS2812"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.2" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.3" value="..\_PROJEKTY\turbocpp_template"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.4" value="..\..\Borland Studio Projects"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.5" value="$(BDS)\lib"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.6" value="$(BDS)\lib\obj"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.1" value="logging"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.2" value="Wasapi"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.3" value="WS2812"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.4" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.5" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.6" value="..\..\Borland Studio Projects"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.7" value="$(BDS)\lib"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.8" value="$(BDS)\lib\obj"/>
           <property category="win32.*.win32b.dcc32" name="option.U.arg.merge" value="1"/>
           <property category="win32.*.win32b.dcc32" name="option.U.enabled" value="1"/>
           <property category="win32.*.win32b.dcc32" name="param.filenames.merge" value="1"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.1" value="WS2812"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.2" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.3" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.1" value="Wasapi"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.2" value="WS2812"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.3" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.4" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.5" value="logging"/>
           <property category="win32.*.win32b.idl2cpp" name="option.I.arg.merge" value="1"/>
           <property category="win32.*.win32b.idl2cpp" name="option.I.enabled" value="1"/>
           <property category="win32.*.win32b.ilink32" name="container.SelectedWarnings.containerenabled" value="1"/>
@@ -203,9 +214,9 @@
           <property category="win32.*.win32b.ilink32" name="option.Gi.enabled" value="0"/>
           <property category="win32.*.win32b.ilink32" name="option.Gpd.enabled" value="0"/>
           <property category="win32.*.win32b.ilink32" name="option.Gpr.enabled" value="0"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.1" value="WS2812"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.2" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.3" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.1" value="logging"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.2" value="Wasapi"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.3" value="WS2812"/>
           <property category="win32.*.win32b.ilink32" name="option.L.arg.4" value="$(BDS)\lib"/>
           <property category="win32.*.win32b.ilink32" name="option.L.arg.5" value="$(BDS)\lib\obj"/>
           <property category="win32.*.win32b.ilink32" name="option.L.arg.6" value="$(BDS)\lib\psdk"/>
@@ -217,9 +228,9 @@
           <property category="win32.*.win32b.ilink32" name="option.aa.enabled" value="1"/>
           <property category="win32.*.win32b.ilink32" name="option.ap.enabled" value="0"/>
           <property category="win32.*.win32b.ilink32" name="option.dynamicrtl.enabled" value="1"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.1" value="WS2812"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.2" value="D:\progs\_PLATAN_\DYP_A01_test\DYP_A01_test"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.3" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.1" value="logging"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.2" value="Wasapi"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.3" value="WS2812"/>
           <property category="win32.*.win32b.ilink32" name="option.j.arg.merge" value="1"/>
           <property category="win32.*.win32b.ilink32" name="option.j.enabled" value="0"/>
           <property category="win32.*.win32b.ilink32" name="option.m.enabled" value="0"/>
@@ -240,6 +251,13 @@
       <FILELIST>
         <FILE FILENAME="_doc\doxygen.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="_doc\changelog.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="logging\FrameLogConf.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FrameLogConf" FORMNAME="fraLogConf" DESIGNCLASS="TFrame" ADDITIONAL="logging\FrameLogConf.h"/>
+        <FILE FILENAME="logging\LogConf.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="LogConf" FORMNAME="" DESIGNCLASS="" ADDITIONAL="logging\LogConf.h"/>
+        <FILE FILENAME="logging\FormLog.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormLog" FORMNAME="frmLog" DESIGNCLASS="" ADDITIONAL="logging\FormLog.h"/>
+        <FILE FILENAME="logging\Log.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Log" FORMNAME="" DESIGNCLASS="" ADDITIONAL="logging\Log.h"/>
+        <FILE FILENAME="Wasapi\WasapiLoopbackCapture.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="WasapiLoopbackCapture" FORMNAME="" DESIGNCLASS="" ADDITIONAL="Wasapi\WasapiLoopbackCapture.h"/>
+        <FILE FILENAME="Wasapi\WasapiMinimal.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="WasapiMinimal" FORMNAME="" DESIGNCLASS="" ADDITIONAL="Wasapi\WasapiMinimal.h"/>
+        <FILE FILENAME="Wasapi\WasapiDevices.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="WasapiDevices" FORMNAME="" DESIGNCLASS="" ADDITIONAL="Wasapi\WasapiDevices.h"/>
         <FILE FILENAME="WS2812\WS2812.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="WS2812" FORMNAME="" DESIGNCLASS="" ADDITIONAL="WS2812\WS2812.h"/>
         <FILE FILENAME="WS2812_test.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="WS2812_test" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="WS2812_test.res" CONTAINERID="ResTool" LOCALCOMMAND="" UNITNAME="WS2812_test.res" FORMNAME="" DESIGNCLASS=""/>
@@ -247,8 +265,6 @@
         <FILE FILENAME="FormSettings.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormSettings" FORMNAME="frmSettings" DESIGNCLASS="" ADDITIONAL="FormSettings.h"/>
         <FILE FILENAME="Settings.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Settings" FORMNAME="" DESIGNCLASS="" ADDITIONAL="Settings.h"/>
         <FILE FILENAME="FormAbout.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormAbout" FORMNAME="frmAbout" DESIGNCLASS="" ADDITIONAL="FormAbout.h"/>
-        <FILE FILENAME="Log.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Log" FORMNAME="" DESIGNCLASS="" ADDITIONAL="Log.h"/>
-        <FILE FILENAME="LogUnit.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="LogUnit" FORMNAME="frmLog" DESIGNCLASS="" ADDITIONAL="LogUnit.h"/>
         <FILE FILENAME="Mru.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Mru" FORMNAME="" DESIGNCLASS="" ADDITIONAL="Mru.h"/>
         <FILE FILENAME="AppStatus.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="AppStatus" FORMNAME="" DESIGNCLASS="" ADDITIONAL="AppStatus.h"/>
         <FILE FILENAME="ComPort.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ComPort" FORMNAME="" DESIGNCLASS="" ADDITIONAL="ComPort.h"/>
@@ -258,13 +274,16 @@
         <FILE FILENAME="WS2812\FormWS2812Animations.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormWS2812Animations" FORMNAME="frmWS2812Animations" DESIGNCLASS="" ADDITIONAL="WS2812\FormWS2812Animations.h"/>
         <FILE FILENAME="WS2812\FormWS2812ManualControl.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormWS2812ManualControl" FORMNAME="frmWS2812ManualControl" DESIGNCLASS="" ADDITIONAL="WS2812\FormWS2812ManualControl.h"/>
         <FILE FILENAME="WS2812\FormWS2812OneForAll.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormWS2812OneForAll" FORMNAME="frmWS2812OneForAll" DESIGNCLASS="" ADDITIONAL="WS2812\FormWS2812OneForAll.h"/>
+        <FILE FILENAME="WS2812\FormWS2812AudioVisualisation.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormWS2812AudioVisualisation" FORMNAME="frmWS2812AudioVisualisation" DESIGNCLASS="" ADDITIONAL="WS2812\FormWS2812AudioVisualisation.h"/>
+        <FILE FILENAME="WS2812\AudioVisualisationConf.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="AudioVisualisationConf" FORMNAME="" DESIGNCLASS="" ADDITIONAL="WS2812\AudioVisualisationConf.h"/>
+        <FILE FILENAME="WS2812\FrameAudioVisualisationConf.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FrameAudioVisualisationConf" FORMNAME="fraAudioVisualisationConf" DESIGNCLASS="TFrame" ADDITIONAL="WS2812\FrameAudioVisualisationConf.h"/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>
           <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
           <VersionInfo Name="AutoIncBuild">False</VersionInfo>
           <VersionInfo Name="MajorVer">1</VersionInfo>
-          <VersionInfo Name="MinorVer">0</VersionInfo>
+          <VersionInfo Name="MinorVer">1</VersionInfo>
           <VersionInfo Name="Release">0</VersionInfo>
           <VersionInfo Name="Build">0</VersionInfo>
           <VersionInfo Name="Debug">False</VersionInfo>
@@ -278,13 +297,13 @@
         <VersionInfoKeys>
           <VersionInfoKeys Name="CompanyName">Tomasz Ostrowski</VersionInfoKeys>
           <VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
-          <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+          <VersionInfoKeys Name="FileVersion">1.1.0.0</VersionInfoKeys>
           <VersionInfoKeys Name="InternalName"></VersionInfoKeys>
           <VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
           <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
           <VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
           <VersionInfoKeys Name="ProductName"></VersionInfoKeys>
-          <VersionInfoKeys Name="ProductVersion">1.0</VersionInfoKeys>
+          <VersionInfoKeys Name="ProductVersion">1.1</VersionInfoKeys>
           <VersionInfoKeys Name="Comments"></VersionInfoKeys>
         </VersionInfoKeys>
         <Debugging>
@@ -322,10 +341,10 @@
       </IDEOPTIONS>
     </BCBPROJECT>
 		<buildevents>
-			<buildevent file="turbocpp_template.bdsproj">
-				<precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
+      <buildevent file="turbocpp_template.bdsproj">
+        <precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
 </precompile>
-			</buildevent>
-		</buildevents>
+      </buildevent>
+    </buildevents>
 	</CPlusPlusBuilder.Personality>
 </BorlandProject>

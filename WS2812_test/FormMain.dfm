@@ -3,10 +3,10 @@ object frmMain: TfrmMain
   Top = 0
   Caption = 'WS2812 test'
   ClientHeight = 354
-  ClientWidth = 433
+  ClientWidth = 584
   Color = clBtnFace
   Constraints.MinHeight = 400
-  Constraints.MinWidth = 400
+  Constraints.MinWidth = 592
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -24,23 +24,29 @@ object frmMain: TfrmMain
   object StatusBar: TStatusBar
     Left = 0
     Top = 335
-    Width = 433
+    Width = 584
     Height = 19
     Panels = <>
   end
   object pnlTop: TPanel
     Left = 0
     Top = 0
-    Width = 433
+    Width = 584
     Height = 41
     Align = alTop
     TabOrder = 1
     object lblSerialPortState: TLabel
       Left = 127
-      Top = 12
-      Width = 107
-      Height = 13
+      Top = 9
+      Width = 183
+      Height = 19
       Caption = 'Serial port not opened'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
     end
     object btnSerialOpen: TButton
       Left = 9
@@ -55,7 +61,7 @@ object frmMain: TfrmMain
   object pages: TPageControl
     Left = 0
     Top = 41
-    Width = 433
+    Width = 584
     Height = 294
     Align = alClient
     TabOrder = 2
@@ -65,6 +71,10 @@ object frmMain: TfrmMain
     Top = 176
     object miFile: TMenuItem
       Caption = 'File'
+      object miMinimizeTray: TMenuItem
+        Caption = 'Minimize to tray'
+        OnClick = miMinimizeTrayClick
+      end
       object Exit1: TMenuItem
         Action = FileExit
       end
@@ -389,7 +399,26 @@ object frmMain: TfrmMain
   object tmrSerialReinit: TTimer
     Interval = 2000
     OnTimer = tmrSerialReinitTimer
-    Left = 264
+    Left = 312
     Top = 8
+  end
+  object tmrStartup: TTimer
+    Interval = 100
+    OnTimer = tmrStartupTimer
+    Left = 344
+    Top = 8
+  end
+  object popupTray: TPopupMenu
+    Left = 296
+    Top = 216
+    object miTrayShow: TMenuItem
+      Caption = 'Show'
+      Default = True
+      OnClick = miTrayShowClick
+    end
+    object miTrayExit: TMenuItem
+      Caption = 'Exit'
+      OnClick = miTrayExitClick
+    end
   end
 end

@@ -6,6 +6,9 @@
 #include "FormSettings.h"
 #include "ComPort.h"
 #include "Log.h"
+#include "FrameLogConf.h"
+#include "WS2812\FrameAudioVisualisationConf.h"
+#include "common\Autostart.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -16,6 +19,14 @@ __fastcall TfrmSettings::TfrmSettings(TComponent* Owner)
 {
 	this->appSettings = NULL;
 	pages->ActivePage = tsGeneral;
+
+	fraLogConf = new TfraLogConf(tsLogging, tmpSettings.logging);
+	fraLogConf->Parent = tsLogging;
+	fraLogConf->Visible = true;
+
+	fraAudioVisualisationConf = new TfraAudioVisualisationConf(tsAudioVisualisation, tmpSettings.audioVisualisation);
+	fraAudioVisualisationConf->Parent = tsAudioVisualisation;
+	fraAudioVisualisationConf->Visible = true;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmSettings::FormShow(TObject *Sender)
@@ -23,20 +34,32 @@ void __fastcall TfrmSettings::FormShow(TObject *Sender)
     assert(appSettings);
 	tmpSettings = *appSettings;
 	chbAlwaysOnTop->Checked = tmpSettings.frmMain.alwaysOnTop;
+	chbStartMinimizedToTray->Checked = tmpSettings.frmMain.startMinimizedToTray;
+	chbAutostart->Checked = tmpSettings.frmMain.autostart;
+	fraLogConf->Load();
+	fraAudioVisualisationConf->Load();
 
-	chbLogToFile->Checked = tmpSettings.logging.logToFile;
-	cmbMaxUiLogLines->ItemIndex = -1;
-	for (int i=0; i<cmbMaxUiLogLines->Items->Count; i++)
 	{
-		if ((unsigned int)StrToInt(cmbMaxUiLogLines->Items->Strings[i]) >= tmpSettings.logging.maxUiLogLines)
+		// registration can go stale or be changed externally - offer to fix it up
+		AnsiString autostartName, autostartCommand;
+		GetAutostartIdentity(autostartName, autostartCommand);
+		bool actuallyEnabled = Autostart::IsEnabled(autostartName, autostartCommand);
+		if (actuallyEnabled != tmpSettings.frmMain.autostart)
 		{
-			cmbMaxUiLogLines->ItemIndex = i;
-			break;
+			AnsiString msg;
+			msg.sprintf(
+				"Actual autostart registration (%s) does not match the current setting (%s).\n\n"
+				"Update the registration now to match the setting?",
+				actuallyEnabled ? "enabled" : "disabled",
+				tmpSettings.frmMain.autostart ? "enabled" : "disabled");
+			if (MessageBox(this->Handle, msg.c_str(), this->Caption.c_str(), MB_ICONQUESTION | MB_YESNO) == IDYES)
+			{
+				if (tmpSettings.frmMain.autostart)
+					Autostart::Enable(autostartName, autostartCommand);
+				else
+					Autostart::Disable(autostartName);
+			}
 		}
-	}
-	if (cmbMaxUiLogLines->ItemIndex == -1)
-	{
-		cmbMaxUiLogLines->ItemHeight = cmbMaxUiLogLines->Items->Count - 1;
 	}
 
 	{
@@ -73,7 +96,20 @@ void __fastcall TfrmSettings::btnCancelClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TfrmSettings::btnApplyClick(TObject *Sender)
 {
-	tmpSettings.logging.logToFile = chbLogToFile->Checked;
+	fraLogConf->Apply();
+	fraAudioVisualisationConf->Apply();
+
+	tmpSettings.frmMain.startMinimizedToTray = chbStartMinimizedToTray->Checked;
+
+	tmpSettings.frmMain.autostart = chbAutostart->Checked;
+	{
+		AnsiString autostartName, autostartCommand;
+		GetAutostartIdentity(autostartName, autostartCommand);
+		if (tmpSettings.frmMain.autostart)
+			Autostart::Enable(autostartName, autostartCommand);
+		else
+			Autostart::Disable(autostartName);
+	}
 
 	tmpSettings.serialPort.name = cbSerialPorts->Text;
 	tmpSettings.serialPort.baud = StrToIntDef(edSerialPortBaudrate->Text, tmpSettings.serialPort.baud);
@@ -98,9 +134,10 @@ void __fastcall TfrmSettings::chbAlwaysOnTopClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TfrmSettings::cmbMaxUiLogLinesChange(TObject *Sender)
+void TfrmSettings::GetAutostartIdentity(AnsiString &name, AnsiString &command)
 {
-	tmpSettings.logging.maxUiLogLines = StrToInt(cmbMaxUiLogLines->Text);	
+	name = ExtractFileName(ChangeFileExt(Application->ExeName, ""));
+	command = "\"" + Application->ExeName + "\"";
 }
 //---------------------------------------------------------------------------
 

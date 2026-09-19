@@ -7,11 +7,13 @@
 #include "FormAbout.h"
 #include "FormSettings.h"
 #include "Settings.h"
-#include "LogUnit.h"
+#include "FormLog.h"
 #include "Log.h"
 #include "ComPort.h"
 #include "TabManager.h"
 #include "FormWS2812.h"
+#include "WS2812\FormWS2812AudioVisualisation.h"
+#include "common\TrayIcon.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -20,12 +22,19 @@ TfrmMain *frmMain;
 //---------------------------------------------------------------------------
 __fastcall TfrmMain::TfrmMain(TComponent* Owner)
 	: TForm(Owner),
-	serialOpenCalled(false)	
+	serialOpenCalled(false)
 {
 #ifdef ACCEPT_WM_DROPFILES
 	// inform OS that we accepting dropping files
 	DragAcceptFiles(Handle, True);
 #endif
+
+	trIcon = new TrayIcon(this);
+	trIcon->OnLeftBtnDown = OnTrayIconLeftBtnDown;
+	trIcon->SetPopupMenu(popupTray);
+	trIcon->SetIcon(Application->Icon);
+	trIcon->SetHint(Application->Title);
+	trIcon->ShowInTray(true);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmMain::FormCreate(TObject *Sender)
@@ -45,10 +54,7 @@ void __fastcall TfrmMain::FormCreate(TObject *Sender)
 		this->FormStyle = fsNormal;
 	if (appSettings.frmMain.windowMaximized)
 		this->WindowState = wsMaximized;
-	if (appSettings.logging.logToFile)
-		CLog::Instance()->SetFile(ChangeFileExt(Application->ExeName, ".log").c_str());
-	else
-		CLog::Instance()->SetFile("");
+	UpdateLogConfig();
 
 	{
 		AnsiString tmp;
@@ -69,6 +75,12 @@ void __fastcall TfrmMain::FormCloseQuery(TObject *Sender, bool &CanClose)
 		appSettings.frmMain.posY = this->Top;
 		appSettings.frmMain.posX = this->Left;
 	}
+
+	appSettings.logging.windowWidth = frmLog->Width;
+	appSettings.logging.windowHeight = frmLog->Height;
+
+	appSettings.frmMain.activeTabIndex = pages->ActivePageIndex;
+
 	appSettings.Write(asConfigFile);
 
 	comPort.Close();
@@ -91,11 +103,11 @@ void __fastcall TfrmMain::actShowSettingsExecute(TObject *Sender)
 		this->FormStyle = fsStayOnTop;
 	else
 		this->FormStyle = fsNormal;
-	if (appSettings.logging.logToFile)
-		CLog::Instance()->SetFile(ChangeFileExt(Application->ExeName, ".log").c_str());
-	else
-		CLog::Instance()->SetFile("");
+	UpdateLogConfig();
 	frmLog->SetLogLinesLimit(appSettings.logging.maxUiLogLines);
+	if (frmLog->Visible)
+		frmLog->UpdateUi();
+	frmWS2812AudioVisualisation->UpdateUi();
 
 	{
 		AnsiString tmp;
@@ -119,24 +131,8 @@ void __fastcall TfrmMain::actShowSettingsExecute(TObject *Sender)
 
 void __fastcall TfrmMain::FormShow(TObject *Sender)
 {
-    static bool once = false;
-    if (!once)
-    {
-		once = true;
-		frmLog->SetLogLinesLimit(appSettings.logging.maxUiLogLines);		
-		CLog::Instance()->SetLevel(E_LOG_TRACE);
-		CLog::Instance()->callbackLog = frmLog->OnLog;
-		// make sure window position is not outside of available monitors
-		OnRestore(NULL);
-
-		if (appSettings.serialPort.openAtStartup)
-		{
-			SerialOpen();
-		}
-
-		UpdateLedCount();
-	}
-	LOG("Application started\n");
+	// re-validate position in case monitors changed while minimized to tray
+	OnRestore(NULL);
 }
 //---------------------------------------------------------------------------
 
@@ -155,7 +151,54 @@ void TfrmMain::UpdateLedCount(void)
 
 void __fastcall TfrmMain::FormDestroy(TObject *Sender)
 {
-	CLog::Instance()->Destroy();	
+	CLog::Instance()->Destroy();
+}
+//---------------------------------------------------------------------------
+
+void TfrmMain::UpdateLogConfig(void)
+{
+	CLog *log = CLog::Instance();
+	if (appSettings.logging.logToFile)
+		log->SetFile(ChangeFileExt(Application->ExeName, ".log").c_str());
+	else
+		log->SetFile("");
+	log->SetFlush(appSettings.logging.flush);
+	log->SetMaxFileSize(appSettings.logging.maxFileSize);
+	log->SetTimestamps(appSettings.logging.timestamps);
+	log->SetLogRotateCnt(appSettings.logging.logRotate);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::tmrStartupTimer(TObject *Sender)
+{
+	tmrStartup->Enabled = false;
+
+	// runs regardless of window visibility, so "start minimized" still works
+	frmLog->SetLogLinesLimit(appSettings.logging.maxUiLogLines);
+	CLog::Instance()->callbackLog = frmLog->OnLog;
+
+	if (appSettings.frmMain.activeTabIndex >= 0 &&
+		appSettings.frmMain.activeTabIndex < pages->PageCount)
+	{
+		pages->ActivePageIndex = appSettings.frmMain.activeTabIndex;
+	}
+
+	if (appSettings.serialPort.openAtStartup)
+	{
+		SerialOpen();
+	}
+
+	if (appSettings.audioVisualisation.autoStart)
+	{
+		frmWS2812AudioVisualisation->StartCapture();
+	}
+
+	UpdateLedCount();
+
+	if (appSettings.logging.showWindowAtStartup)
+		frmLog->Show();
+
+	LOG("Application started\n");
 }
 //---------------------------------------------------------------------------
 
@@ -164,6 +207,51 @@ void __fastcall TfrmMain::actShowLogExecute(TObject *Sender)
 	if (!frmLog->Visible)
 		frmLog->Show();
 	frmLog->BringToFront();
+}
+//---------------------------------------------------------------------------
+
+void TfrmMain::ToggleVisibility(void)
+{
+	Visible = !Visible;
+	if (Visible)
+	{
+		Application->Restore();
+		ShowWindow(Application->Handle, SW_SHOW);	// show taskbar button
+		SetActiveWindow(Handle);
+		SetForegroundWindow(Handle);
+		SetWindowPos(Handle, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+		OnRestore(NULL);
+	}
+	else
+	{
+		ShowWindow(Application->Handle, SW_HIDE);	// hide taskbar button
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::OnTrayIconLeftBtnDown(TObject *Sender)
+{
+	ToggleVisibility();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::miMinimizeTrayClick(TObject *Sender)
+{
+	Visible = false;
+	ShowWindow(Application->Handle, SW_HIDE);	// hide taskbar button
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::miTrayShowClick(TObject *Sender)
+{
+	if (!Visible)
+		ToggleVisibility();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmMain::miTrayExitClick(TObject *Sender)
+{
+	Close();
 }
 //---------------------------------------------------------------------------
 
@@ -265,9 +353,15 @@ int TfrmMain::SerialOpen(void)
 	int status = comPort.Open(name.c_str(), appSettings.serialPort.baud, false);
 	AnsiString text;
 	if (status == 0)
+	{
 		text.sprintf("%s opened, %u bps", appSettings.serialPort.name.c_str(), appSettings.serialPort.baud);
+		lblSerialPortState->Font->Color = clWindowText;
+	}
 	else
+	{
 		text.sprintf("Failed to open %s", appSettings.serialPort.name.c_str());
+		lblSerialPortState->Font->Color = clRed;
+	}
 	lblSerialPortState->Caption = text;
 	return status;
 }

@@ -1,0 +1,2 @@
+- "Default" for input now working (need to select microphone even this is the only one device)
+- maybe turn off LEDs on close (or not?)

@@ -8,12 +8,20 @@
 #include <System.hpp>
 
 #include "WS2812.h"
+#include "logging/LogConf.h"
+#include "WS2812/AudioVisualisationConf.h"
+#include "common/SettingsUtils.h"
 #include <vector>
+
+namespace Json
+{
+	struct Value;
+}
 
 class Settings
 {
 public:
-	int Read(AnsiString asFileName);
+	enum SettingsUtils::ReadStatus Read(AnsiString asFileName);
 	int Write(AnsiString asFileName);
 	struct Gui
 	{
@@ -30,33 +38,20 @@ public:
 		int height, width;			///< main window size
 		bool windowMaximized;			///< is main window maximized?
 		bool alwaysOnTop;
+		int activeTabIndex;			///< last active tab in the main window's page control
+		bool startMinimizedToTray;
+		bool autostart;
 		FrmMain(void):
 			width(600), height(400),
 			posX(30), posY(30),
 			windowMaximized(false),
-			alwaysOnTop(false)
+			alwaysOnTop(false),
+			activeTabIndex(0),
+			startMinimizedToTray(false),
+			autostart(false)
 		{}
 	} frmMain;
-	struct Logging
-	{
-		bool logToFile;
-		bool flush;
-		enum {
-			MIN_MAX_FILE_SIZE = 0,
-			MAX_MAX_FILE_SIZE = 1000*1024*1024
-		};
-		enum {
-			DEF_MAX_FILE_SIZE = 10*1024*1024
-		};
-		int maxFileSize;
-		unsigned int maxUiLogLines;
-		Logging(void):
-			logToFile(false),
-			flush(false),
-			maxFileSize(DEF_MAX_FILE_SIZE),
-			maxUiLogLines(5000)
-		{}
-	} logging;
+	struct LogConf logging;
 	struct SerialPort
 	{
 		AnsiString name;
@@ -88,6 +83,9 @@ public:
 			manualControlApplyImmediately(true)
 		{}
 	} ws2812;
+	struct AudioVisualisationConf audioVisualisation;
+private:
+	void UpdateFromJsonValue(const Json::Value &root);
 };
 
 extern Settings appSettings;

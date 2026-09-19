@@ -4,8 +4,8 @@
 #pragma hdrstop
 
 #include "Settings.h"
+#include "common/SettingsUtils.h"
 #include <algorithm>
-#include <fstream>
 #include <json/json.h>
 
 //---------------------------------------------------------------------------
@@ -19,27 +19,8 @@ inline void strncpyz(char* dst, const char* src, int dstsize) {
 	dst[dstsize-1] = '\0';
 }
 
-int Settings::Read(AnsiString asFileName)
+void Settings::UpdateFromJsonValue(const Json::Value &root)
 {
-	Json::Value root;   // will contains the root value after parsing.
-	Json::Reader reader;
-
-	try
-	{
-		std::ifstream ifs(asFileName.c_str());
-		std::string strConfig((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-		ifs.close();
-		bool parsingSuccessful = reader.parse( strConfig, root );
-		if ( !parsingSuccessful )
-		{
-			return 2;
-		}
-	}
-	catch(...)
-	{
-		return 1;
-	}
-
 	{
 		int maxX = GetSystemMetrics(SM_CXSCREEN);
 		/** \todo Ugly fixed taskbar margin */
@@ -57,15 +38,12 @@ int Settings::Read(AnsiString asFileName)
 	#endif
 		jv.getBool("maximized", frmMain.windowMaximized);
 		jv.get("alwaysOnTop", frmMain.alwaysOnTop);
+		jv.getInt("activeTabIndex", frmMain.activeTabIndex);
+		jv.getBool("startMinimizedToTray", frmMain.startMinimizedToTray);
+		jv.getBool("autostart", frmMain.autostart);
 	}
 
-	{
-		const Json::Value &jv = root["logging"];
-		jv.getBool("logToFile", logging.logToFile);
-		jv.getBool("flush", logging.flush);
-		jv.getIntInRange("maxFileSize", logging.maxFileSize, Logging::MIN_MAX_FILE_SIZE, Logging::MAX_MAX_FILE_SIZE);
-		jv.getUInt("maxUiLogLines", logging.maxUiLogLines);
-	}
+	logging.fromJson(root["logging"]);
 
 	{
 		const Json::Value &jv = root["serialPort"];
@@ -102,7 +80,17 @@ int Settings::Read(AnsiString asFileName)
 		jv.getBool("manualControlApplyImmediately", ws2812.manualControlApplyImmediately);
 	}
 
-	return 0;
+	audioVisualisation.fromJson(root["audioVisualisation"]);
+}
+
+enum SettingsUtils::ReadStatus Settings::Read(AnsiString asFileName)
+{
+	Json::Value root;   // will contains the root value after parsing.
+
+	enum SettingsUtils::ReadStatus status = SettingsUtils::ReadFileOrBackup(asFileName, root);
+	if (status == SettingsUtils::READ_OK || status == SettingsUtils::READ_RECOVERED_FROM_BACKUP)
+		UpdateFromJsonValue(root);
+	return status;
 }
 
 int Settings::Write(AnsiString asFileName)
@@ -118,15 +106,12 @@ int Settings::Write(AnsiString asFileName)
 		jv["positionY"] = frmMain.posY;
 		jv["maximized"] = frmMain.windowMaximized;
 		jv["alwaysOnTop"] = frmMain.alwaysOnTop;
+		jv["activeTabIndex"] = frmMain.activeTabIndex;
+		jv["startMinimizedToTray"] = frmMain.startMinimizedToTray;
+		jv["autostart"] = frmMain.autostart;
 	}
 
-	{
-		Json::Value &jv = root["logging"];
-		jv["logToFile"] = logging.logToFile;
-		jv["flush"] = logging.flush;
-		jv["maxFileSize"] = logging.maxFileSize;
-		jv["maxUiLogLines"] = logging.maxUiLogLines;
-	}
+	logging.toJson(root["logging"]);
 
 	{
 		Json::Value &jv = root["serialPort"];
@@ -158,20 +143,10 @@ int Settings::Write(AnsiString asFileName)
 		jv["manualControlApplyImmediately"] = ws2812.manualControlApplyImmediately;
 	}
 
+	audioVisualisation.toJson(root["audioVisualisation"]);
+
 	std::string outputConfig = writer.write( root );
-
-	try
-	{
-		std::ofstream ofs(asFileName.c_str());
-		ofs << outputConfig;
-		ofs.close();
-	}
-	catch(...)
-	{
-    	return 1;
-	}
-
-	return 0;
+	return SettingsUtils::AtomicUpdateWithBackup(asFileName, outputConfig);
 }
 
 
