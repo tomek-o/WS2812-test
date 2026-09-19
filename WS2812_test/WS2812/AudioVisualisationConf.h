@@ -10,7 +10,7 @@ namespace Json
 
 struct AudioVisualisationConf
 {
-	enum { MIN_MAX_BRIGHTNESS = 10, DEFAULT_MAX_BRIGHTNESS = 20, MAX_MAX_BRIGHTNESS = 255 };
+	enum { MIN_MAX_BRIGHTNESS = 2, DEFAULT_MAX_BRIGHTNESS = 20, MAX_MAX_BRIGHTNESS = 255 };
 	/** \note floor set by Win32 timer resolution (~15 ms); WM_TIMER can lag further */
 	enum { MIN_UPDATE_INTERVAL_MS = 15, MAX_UPDATE_INTERVAL_MS = 100 };
 	enum { MIN_METER_FLOOR_DB = -80, MAX_METER_FLOOR_DB = -10 };
