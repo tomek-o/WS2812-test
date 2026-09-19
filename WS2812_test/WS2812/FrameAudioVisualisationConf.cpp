@@ -59,6 +59,7 @@ void TfraAudioVisualisationConf::Load(void)
 	chbAutoStart->Checked = conf.autoStart;
 	chbPeakDetect->Checked = conf.peakDetect;
 	trbarMaxBrightness->Position = conf.maxBrightness;
+	UpdateMaxBrightnessLabel();
 	trbarUpdateInterval->Position = conf.updateIntervalMs;
 	UpdateIntervalLabel();
 	trbarMeterFloor->Position = conf.meterFloorDb;
@@ -77,6 +78,18 @@ void TfraAudioVisualisationConf::UpdateGainLabel(void)
 	AnsiString text;
 	text.sprintf("%.1fx", trbarGain->Position / 10.0f);
 	lblGainValue->Caption = text;
+}
+
+void __fastcall TfraAudioVisualisationConf::trbarMaxBrightnessChange(TObject *Sender)
+{
+	UpdateMaxBrightnessLabel();
+}
+
+void TfraAudioVisualisationConf::UpdateMaxBrightnessLabel(void)
+{
+	AnsiString text;
+	text.sprintf("%d", trbarMaxBrightness->Position);
+	lblMaxBrightnessValue->Caption = text;
 }
 
 void __fastcall TfraAudioVisualisationConf::trbarUpdateIntervalChange(TObject *Sender)
@@ -128,3 +141,4 @@ void TfraAudioVisualisationConf::Apply(void)
 	conf.smoothingPct = trbarSmoothing->Position;
 }
 //---------------------------------------------------------------------------
+

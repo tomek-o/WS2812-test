@@ -31,13 +31,16 @@ __published:	// IDE-managed Components
 	TLabel *lblSmoothing;
 	TLabel *lblSmoothingValue;
 	TTrackBar *trbarSmoothing;
+	TLabel *lblMaxBrightnessValue;
 	void __fastcall trbarGainChange(TObject *Sender);
+	void __fastcall trbarMaxBrightnessChange(TObject *Sender);
 	void __fastcall trbarUpdateIntervalChange(TObject *Sender);
 	void __fastcall trbarMeterFloorChange(TObject *Sender);
 	void __fastcall trbarSmoothingChange(TObject *Sender);
 private:	// User declarations
 	AudioVisualisationConf &conf;
 	void UpdateGainLabel(void);
+	void UpdateMaxBrightnessLabel(void);
 	void UpdateIntervalLabel(void);
 	void UpdateMeterFloorLabel(void);
 	void UpdateSmoothingLabel(void);
