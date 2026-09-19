@@ -19,34 +19,61 @@
 // mmdeviceapi.h subset
 //---------------------------------------------------------------------------
 
-typedef enum _EDataFlow
-{
-	eRender = 0,
-	eCapture = 1,
-	eAll = 2
-} EDataFlow;
+/** \note BDS2006 defaults to 1-byte size to small enums which breaks COM ABI.
+	On the other hand swithing to int-sized enum in settings broken more things.
+*/
+typedef int EDataFlow;
 
-typedef enum _ERole
-{
-	eConsole = 0,
-	eMultimedia = 1,
-	eCommunications = 2
-} ERole;
+#define eRender   ((EDataFlow)0)
+#define eCapture  ((EDataFlow)1)
+#define eAll      ((EDataFlow)2)
+
+const char* GetEDataFlowName(EDataFlow flow);
+
+/** \note BDS2006 defaults to 1-byte size to small enums which breaks COM ABI.
+	On the other hand swithing to int-sized enum in settings broken more things.
+*/
+typedef int ERole;
+
+#define eConsole       ((ERole)0)
+#define eMultimedia    ((ERole)1)
+#define eCommunications ((ERole)2)
 
 #define DEVICE_STATE_ACTIVE 0x1
 
 struct IMMDevice;
+struct IMMDeviceCollection;
 
 DECLARE_INTERFACE_(IMMDeviceEnumerator, IUnknown)
 {
-	STDMETHOD(QueryInterface)(THIS_ REFIID riid, void **ppvObject) PURE;
-	STDMETHOD_(ULONG, AddRef)(THIS) PURE;
-	STDMETHOD_(ULONG, Release)(THIS) PURE;
-	STDMETHOD(EnumAudioEndpoints)(THIS_ EDataFlow dataFlow, DWORD dwStateMask, void **ppDevices) PURE;
-	STDMETHOD(GetDefaultAudioEndpoint)(THIS_ EDataFlow dataFlow, ERole role, IMMDevice **ppEndpoint) PURE;
-	STDMETHOD(GetDevice)(THIS_ LPCWSTR pwstrId, IMMDevice **ppDevice) PURE;
-	STDMETHOD(RegisterEndpointNotificationCallback)(THIS_ void *pClient) PURE;
-	STDMETHOD(UnregisterEndpointNotificationCallback)(THIS_ void *pClient) PURE;
+    STDMETHOD(QueryInterface)(THIS_ REFIID riid, void **ppvObject) PURE;
+    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
+    STDMETHOD_(ULONG, Release)(THIS) PURE;
+
+    STDMETHOD(EnumAudioEndpoints)(
+        THIS_
+        EDataFlow dataFlow,
+        DWORD dwStateMask,
+        IMMDeviceCollection **ppDevices) PURE;
+
+    STDMETHOD(GetDefaultAudioEndpoint)(
+        THIS_
+        EDataFlow dataFlow,
+        ERole role,
+        IMMDevice **ppEndpoint) PURE;
+
+    STDMETHOD(GetDevice)(
+        THIS_
+        LPCWSTR pwstrId,
+        IMMDevice **ppDevice) PURE;
+
+    STDMETHOD(RegisterEndpointNotificationCallback)(
+        THIS_
+        void *pClient) PURE;
+
+    STDMETHOD(UnregisterEndpointNotificationCallback)(
+        THIS_
+        void *pClient) PURE;
 };
 
 DECLARE_INTERFACE_(IMMDevice, IUnknown)

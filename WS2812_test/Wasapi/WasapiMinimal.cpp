@@ -18,3 +18,19 @@ const GUID IID_IAudioClient         = { 0x1CB9AD4C, 0xDBFA, 0x4C32, { 0xB1, 0x78
 const GUID IID_IAudioCaptureClient  = { 0xC8ADBD64, 0xE71E, 0x48A0, { 0xA4, 0xDE, 0x18, 0x5C, 0x39, 0x5C, 0xD3, 0x17 } };
 const WasapiPropertyKey PKEY_Device_FriendlyName =
 	{ { 0xA45C254E, 0xDF1C, 0x4EFD, { 0x80, 0x20, 0x67, 0xD1, 0x46, 0xA8, 0x50, 0xE0 } }, 14 };
+
+const char* GetEDataFlowName(EDataFlow flow)
+{
+	switch (flow)
+	{
+	case eRender:
+		return "render";
+	case eCapture:
+		return "capture";
+	case eAll:
+		return "all";
+	default:
+		return "???";
+	}
+}
+
