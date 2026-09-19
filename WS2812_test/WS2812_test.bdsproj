@@ -28,7 +28,6 @@
         <property category="build.config.1" name="settings.win32b" value="default"/>
         <property category="build.config.1" name="type" value="Toolset"/>
         <property category="build.config.1" name="win32.win32b.builddir" value="Release_Build"/>
-        <property category="build.node" name="lastconfig" value="Debug_Build"/>
         <property category="build.node" name="libraries" value="vcl.lib rtl.lib"/>
         <property category="build.node" name="name" value="WS2812_test.exe"/>
         <property category="build.node" name="packages" value="vclx;vcl;rtl;dbrtl;vcldb;dbxcds;dbexpress;xmlrtl;vclie;inet;inetdbbde;inetdbxpress;dsnap;soaprtl;bdertl;vcldbx"/>
@@ -132,7 +131,7 @@
           <property category="win32.*.win32b.bcc32" name="option.align-2.enabled" value="0"/>
           <property category="win32.*.win32b.bcc32" name="option.align-3.enabled" value="0"/>
           <property category="win32.*.win32b.bcc32" name="option.align-5.enabled" value="0"/>
-          <property category="win32.*.win32b.bcc32" name="option.b.enabled" value="0"/>
+          <property category="win32.*.win32b.bcc32" name="option.b.enabled" value="1"/>
           <property category="win32.*.win32b.bcc32" name="option.disablewarns.enabled" value="0"/>
           <property category="win32.*.win32b.bcc32" name="option.noregistervars.enabled" value="0"/>
           <property category="win32.*.win32b.bcc32" name="option.p.enabled" value="0"/>
