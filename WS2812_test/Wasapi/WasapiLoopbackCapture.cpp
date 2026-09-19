@@ -170,6 +170,8 @@ unsigned __stdcall WasapiLoopbackCapture::ThreadProc(void *param)
 
 void WasapiLoopbackCapture::Run(void)
 {
+    LOG(PROMPT"Starting capture thread\n");
+
 	HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
 	if (FAILED(hr))
 	{
