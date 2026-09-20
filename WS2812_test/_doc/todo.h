@@ -1,2 +1,4 @@
 - "Default" for input now working (need to select microphone even this is the only one device)
 - maybe turn off LEDs on close (or not?)
+- disable audio visualisation drawing inside application if application is hidden to tray?
+- add configuration for bargraph direction(s), including stereo mode
