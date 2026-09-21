@@ -49,7 +49,7 @@ private:	// User declarations
 	std::vector<std::string> deviceIds;	///< parallel to cbAudioDevice->Items; [0] is "" (default)
 	void Write(void);
 	void UpdatePeak(float level, float &peak, int &holdCounter);
-	void RenderVuBar(unsigned int offset, unsigned int count, float level, float peak);
+	void RenderVuBar(unsigned int offset, unsigned int count, float level, float peak, bool reversed);
 	void UpdateGainLabel(void);
 	void RefreshDeviceList(void);
 public:		// User declarations

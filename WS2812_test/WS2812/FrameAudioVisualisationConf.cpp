@@ -56,6 +56,8 @@ void TfraAudioVisualisationConf::Load(void)
 	trbarGain->Position = static_cast<int>(conf.gain * 10.0f + 0.5f);
 	UpdateGainLabel();
 	chbStereoSeparate->Checked = conf.stereoSeparate;
+	cbStereoDirection->ItemIndex = conf.stereoDirection;
+	cbStereoDirection->Enabled = conf.stereoSeparate;
 	chbAutoStart->Checked = conf.autoStart;
 	chbPeakDetect->Checked = conf.peakDetect;
 	trbarMaxBrightness->Position = conf.maxBrightness;
@@ -117,6 +119,11 @@ void TfraAudioVisualisationConf::UpdateMeterFloorLabel(void)
 	lblMeterFloorValue->Caption = text;
 }
 
+void __fastcall TfraAudioVisualisationConf::chbStereoSeparateClick(TObject *Sender)
+{
+	cbStereoDirection->Enabled = chbStereoSeparate->Checked;
+}
+
 void __fastcall TfraAudioVisualisationConf::trbarSmoothingChange(TObject *Sender)
 {
 	UpdateSmoothingLabel();
@@ -133,6 +140,8 @@ void TfraAudioVisualisationConf::Apply(void)
 {
 	conf.gain = trbarGain->Position / 10.0f;
 	conf.stereoSeparate = chbStereoSeparate->Checked;
+	if (cbStereoDirection->ItemIndex >= 0)
+		conf.stereoDirection = static_cast<unsigned int>(cbStereoDirection->ItemIndex);
 	conf.autoStart = chbAutoStart->Checked;
 	conf.peakDetect = chbPeakDetect->Checked;
 	conf.maxBrightness = trbarMaxBrightness->Position;

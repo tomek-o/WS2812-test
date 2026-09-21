@@ -130,25 +130,30 @@ void TfrmWS2812AudioVisualisation::UpdatePeak(float level, float &peak, int &hol
 	}
 }
 
-void TfrmWS2812AudioVisualisation::RenderVuBar(unsigned int offset, unsigned int count, float level, float peak)
+void TfrmWS2812AudioVisualisation::RenderVuBar(unsigned int offset, unsigned int count, float level, float peak, bool reversed)
 {
 	if (count == 0)
 		return;
 
 	bool peakDetect = appSettings.audioVisualisation.peakDetect;
 
-	// with peak-detect on, the top LED is reserved for the marker so it
-	// never just overwrites the bar's own leading LED at full level
+	// with peak-detect on, the LED furthest from the anchor is reserved for
+	// the marker so it never just overwrites the bar's own leading LED at
+	// full level
 	unsigned int barCount = (peakDetect && count > 1) ? (count - 1) : count;
 
 	unsigned int lit = static_cast<unsigned int>(level * barCount + 0.5f);
 	if (lit > barCount)
 		lit = barCount;
 
-	// full brightness here; maxBrightness is applied later, only for the real strip
+	// i is distance from the anchor (0 = anchor/lowest level, count-1 =
+	// furthest tip); reversed puts the anchor at the far end of the range
+	// instead of at "offset", so stereo halves can grow towards or away
+	// from the middle of the strip
 	for (unsigned int i = 0; i < count; i++)
 	{
-		Ws2812Color &color = previewColors[offset + i];
+		unsigned int index = offset + (reversed ? (count - 1 - i) : i);
+		Ws2812Color &color = previewColors[index];
 		if (i < lit)
 		{
 			float pos = (count > 1) ? (static_cast<float>(i) / (count - 1)) : 0.0f;
@@ -168,11 +173,12 @@ void TfrmWS2812AudioVisualisation::RenderVuBar(unsigned int offset, unsigned int
 		return;
 
 	// drawn last so it stays visible above the bar (barCount-normalized,
-	// same scale as the bar, so it lands on the reserved top LED at full level)
-	unsigned int peakIndex = static_cast<unsigned int>(peak * barCount + 0.5f);
-	if (peakIndex >= count)
-		peakIndex = count - 1;
-	Ws2812Color &peakColor = previewColors[offset + peakIndex];
+	// same scale as the bar, so it lands on the reserved tip LED at full level)
+	unsigned int peakI = static_cast<unsigned int>(peak * barCount + 0.5f);
+	if (peakI >= count)
+		peakI = count - 1;
+	unsigned int peakIndex = offset + (reversed ? (count - 1 - peakI) : peakI);
+	Ws2812Color &peakColor = previewColors[peakIndex];
 	peakColor.r = 0;
 	peakColor.g = 0;
 	peakColor.b = 255;
@@ -217,18 +223,27 @@ void TfrmWS2812AudioVisualisation::Write(void)
 
 	if (appSettings.audioVisualisation.stereoSeparate)
 	{
+		// DEFAULT: left grows edge->center, right grows center->edge (unreversed both)
+		// OUTWARD: both anchored at center, growing towards their edge (left reversed)
+		// INWARD: both anchored at their edge, growing towards center (right reversed)
+		unsigned int direction = appSettings.audioVisualisation.stereoDirection;
+		bool leftReversed = (direction == AudioVisualisationConf::STEREO_DIRECTION_OUTWARD);
+		bool rightReversed = (direction == AudioVisualisationConf::STEREO_DIRECTION_INWARD);
+
 		unsigned int half = ledCount / 2;
-		RenderVuBar(0, half, barLeft, peakLeft);
-		RenderVuBar(half, ledCount - half, barRight, peakRight);
+		RenderVuBar(0, half, barLeft, peakLeft, leftReversed);
+		RenderVuBar(half, ledCount - half, barRight, peakRight, rightReversed);
 	}
 	else
 	{
-		RenderVuBar(0, ledCount, (barLeft + barRight) * 0.5f, (peakLeft + peakRight) * 0.5f);
+		RenderVuBar(0, ledCount, (barLeft + barRight) * 0.5f, (peakLeft + peakRight) * 0.5f, false);
 	}
 
-	// update the on-screen preview regardless of hardware being attached
-	//pbxPreview->Invalidate();
-	PaintOnImage();
+	// skip the preview redraw when nobody can see it (hidden to tray,
+	// minimized, or a different tab active) - the real strip write below
+	// still happens regardless
+	if (IsTabVisible(this))
+		PaintOnImage();
 
 	if (!comPort.isOpened())
 	{

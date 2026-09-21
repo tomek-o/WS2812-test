@@ -17,8 +17,19 @@ struct AudioVisualisationConf
 	enum { MIN_GAIN_X10 = 1, MAX_GAIN_X10 = 50 };	///< gain slider range, gain*10
 	enum { MIN_SMOOTHING_PCT = 0, MAX_SMOOTHING_PCT = 95 };
 
+	/** \brief How the two bar halves grow, when stereoSeparate is on
+		DEFAULT: left grows from the outer edge inward, right grows from the
+			center outward (existing behavior, kept as a selectable option)
+		OUTWARD: both channels anchored at the center, growing outward
+			towards their edge as level rises
+		INWARD: both channels anchored at their outer edge, growing inward
+			towards the center as level rises
+	*/
+	enum { STEREO_DIRECTION_DEFAULT = 0, STEREO_DIRECTION_OUTWARD = 1, STEREO_DIRECTION_INWARD = 2 };
+
 	float gain;					///< multiplier applied to the captured audio level
 	bool stereoSeparate;		///< false: mix L+R into one bar; true: L drives one half, R the other
+	unsigned int stereoDirection;	///< one of STEREO_DIRECTION_*, only relevant when stereoSeparate is on
 	bool autoStart;				///< start WASAPI loopback capture at application startup
 	unsigned int maxBrightness;	///< cap (0-255) on any single R/G/B channel, to limit current draw
 	unsigned int updateIntervalMs;	///< effect refresh interval; lower = faster/smoother

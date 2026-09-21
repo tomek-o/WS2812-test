@@ -18,6 +18,7 @@ __published:	// IDE-managed Components
 	TTrackBar *trbarGain;
 	TLabel *lblGainValue;
 	TCheckBox *chbStereoSeparate;
+	TComboBox *cbStereoDirection;
 	TCheckBox *chbAutoStart;
 	TCheckBox *chbPeakDetect;
 	TLabel *lblMaxBrightness;
@@ -37,6 +38,7 @@ __published:	// IDE-managed Components
 	void __fastcall trbarUpdateIntervalChange(TObject *Sender);
 	void __fastcall trbarMeterFloorChange(TObject *Sender);
 	void __fastcall trbarSmoothingChange(TObject *Sender);
+	void __fastcall chbStereoSeparateClick(TObject *Sender);
 private:	// User declarations
 	AudioVisualisationConf &conf;
 	void UpdateGainLabel(void);
