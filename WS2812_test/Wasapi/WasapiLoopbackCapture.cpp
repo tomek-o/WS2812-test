@@ -213,8 +213,27 @@ void WasapiLoopbackCapture::Run(void)
 			hr = enumerator->GetDefaultAudioEndpoint(isInput ? eCapture : eRender, eConsole, &device);
 			if (FAILED(hr))
 			{
-				LOG(PROMPT"GetDefaultAudioEndpoint failed: 0x%08X\n", hr);
-				break;
+				// no role-default assigned (seen on Windows 7, and even on
+				// Windows 10 with some capture devices) even though a device
+				// is present; fall back to the first active device instead
+				// of giving up outright
+				LOG(PROMPT"GetDefaultAudioEndpoint failed: 0x%08X, falling back to first active device\n", hr);
+
+				IMMDeviceCollection *collection = NULL;
+				HRESULT hrEnum = enumerator->EnumAudioEndpoints(isInput ? eCapture : eRender, DEVICE_STATE_ACTIVE, &collection);
+				if (SUCCEEDED(hrEnum) && collection != NULL)
+				{
+					UINT count = 0;
+					if (SUCCEEDED(collection->GetCount(&count)) && count > 0)
+						collection->Item(0, &device);
+					collection->Release();
+				}
+
+				if (device == NULL)
+				{
+					LOG(PROMPT"No active device found\n");
+					break;
+				}
 			}
 		}
 
