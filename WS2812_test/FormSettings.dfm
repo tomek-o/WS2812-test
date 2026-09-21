@@ -166,6 +166,14 @@ object frmSettings: TfrmSettings
           '56'
           '64')
       end
+      object chbTurnOffOnClose: TCheckBox
+        Left = 3
+        Top = 136
+        Width = 325
+        Height = 17
+        Caption = 'Turn off LEDs when the application closes'
+        TabOrder = 5
+      end
     end
     object tsAudioVisualisation: TTabSheet
       Caption = 'Audio visualisation'

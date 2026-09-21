@@ -78,9 +78,11 @@ public:
 		enum { MAX_LED_COUNT = 1024 };
 		std::vector<Ws2812Color> manualControl;
 		bool manualControlApplyImmediately;
+		bool turnOffOnClose;			///< write all-black to the strip when the application closes
 		WS2812(void):
 			ledCount(8),
-			manualControlApplyImmediately(true)
+			manualControlApplyImmediately(true),
+			turnOffOnClose(true)
 		{}
 	} ws2812;
 	struct AudioVisualisationConf audioVisualisation;

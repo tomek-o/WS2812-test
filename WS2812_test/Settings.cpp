@@ -78,6 +78,7 @@ void Settings::UpdateFromJsonValue(const Json::Value &root)
 			ws2812.manualControl.resize(ws2812.ledCount);
 		}
 		jv.getBool("manualControlApplyImmediately", ws2812.manualControlApplyImmediately);
+		jv.getBool("turnOffOnClose", ws2812.turnOffOnClose);
 	}
 
 	audioVisualisation.fromJson(root["audioVisualisation"]);
@@ -141,6 +142,7 @@ int Settings::Write(AnsiString asFileName)
 			}
 		}
 		jv["manualControlApplyImmediately"] = ws2812.manualControlApplyImmediately;
+		jv["turnOffOnClose"] = ws2812.turnOffOnClose;
 	}
 
 	audioVisualisation.toJson(root["audioVisualisation"]);

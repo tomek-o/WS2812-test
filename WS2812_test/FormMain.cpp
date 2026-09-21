@@ -13,6 +13,7 @@
 #include "TabManager.h"
 #include "FormWS2812.h"
 #include "WS2812\FormWS2812AudioVisualisation.h"
+#include "WS2812\WS2812.h"
 #include "common\TrayIcon.h"
 
 //---------------------------------------------------------------------------
@@ -83,9 +84,15 @@ void __fastcall TfrmMain::FormCloseQuery(TObject *Sender, bool &CanClose)
 
 	appSettings.Write(asConfigFile);
 
+	if (appSettings.ws2812.turnOffOnClose && comPort.isOpened())
+	{
+		std::vector<Ws2812Color> colors(appSettings.ws2812.ledCount);	// default-constructed = black
+		Ws2812Write(colors);
+	}
+
 	comPort.Close();
 
-	CanClose = true;	
+	CanClose = true;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmMain::actShowAboutExecute(TObject *Sender)

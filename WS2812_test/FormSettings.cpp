@@ -87,6 +87,7 @@ void __fastcall TfrmSettings::FormShow(TObject *Sender)
 	chbSerialPortAutoReinit->Checked = tmpSettings.serialPort.autoReinit;
 
 	cbLedCount->Text = tmpSettings.ws2812.ledCount;
+	chbTurnOffOnClose->Checked = tmpSettings.ws2812.turnOffOnClose;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmSettings::btnCancelClick(TObject *Sender)
@@ -122,6 +123,7 @@ void __fastcall TfrmSettings::btnApplyClick(TObject *Sender)
 		tmpSettings.ws2812.ledCount = ledCount;
 	}
 	tmpSettings.ws2812.manualControl.resize(tmpSettings.ws2812.ledCount);
+	tmpSettings.ws2812.turnOffOnClose = chbTurnOffOnClose->Checked;
 
 	*appSettings = tmpSettings;
 	this->Close();	
