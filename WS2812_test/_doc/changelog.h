@@ -18,4 +18,5 @@ Version 1.1.1
 - audio visualisation
 	- changed minimum brightness to 2 - acceptable even in darkness but reducing color palette
 	- not updating bargraph in the GUI (intended mostly for debug purposes) if application is minimized or hidden to tray - reduced CPU usage down to ~0.2% on Haswell i5 laptop
+	- added additional modes for stereo - bagraph scales extending from the middle or LED chain to outside and from outside to the middle	
 */
