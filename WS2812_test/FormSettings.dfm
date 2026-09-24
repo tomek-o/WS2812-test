@@ -4,7 +4,7 @@ object frmSettings: TfrmSettings
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Settings'
-  ClientHeight = 475
+  ClientHeight = 505
   ClientWidth = 499
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,12 +20,13 @@ object frmSettings: TfrmSettings
   TextHeight = 13
   object pnlBottom: TPanel
     Left = 0
-    Top = 438
+    Top = 468
     Width = 499
     Height = 37
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitTop = 438
     DesignSize = (
       499
       37)
@@ -54,12 +55,17 @@ object frmSettings: TfrmSettings
     Left = 0
     Top = 0
     Width = 499
-    Height = 438
+    Height = 468
     ActivePage = tsSerialPort
     Align = alClient
     TabOrder = 0
+    ExplicitHeight = 438
     object tsGeneral: TTabSheet
       Caption = 'General'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object chbAlwaysOnTop: TCheckBox
         Left = 3
         Top = 3
@@ -89,10 +95,15 @@ object frmSettings: TfrmSettings
     object tsLogging: TTabSheet
       Caption = 'Logging'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
     object tsSerialPort: TTabSheet
       Caption = 'Serial Port / WS2812'
       ImageIndex = 2
+      ExplicitHeight = 410
       object lblSerialPortName: TLabel
         Left = 3
         Top = 53
@@ -178,6 +189,10 @@ object frmSettings: TfrmSettings
     object tsAudioVisualisation: TTabSheet
       Caption = 'Audio visualisation'
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
   end
 end
