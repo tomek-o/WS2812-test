@@ -15,6 +15,8 @@ USEFORM("WS2812\FormWS2812ManualControl.cpp", frmWS2812ManualControl);
 USEFORM("WS2812\FormWS2812OneForAll.cpp", frmWS2812OneForAll);
 USEFORM("WS2812\FormWS2812AudioVisualisation.cpp", frmWS2812AudioVisualisation);
 USEFORM("WS2812\FrameAudioVisualisationConf.cpp", fraAudioVisualisationConf); /* TFrame: File Type */
+USEFORM("WS2812\FormWS2812SpectrumAnalyzer.cpp", frmWS2812SpectrumAnalyzer);
+USEFORM("WS2812\FrameSpectrumAnalyzerConf.cpp", fraSpectrumAnalyzerConf); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
 #pragma link "jsoncpp.lib"
@@ -34,6 +36,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmWS2812Animations), &frmWS2812Animations);
 		Application->CreateForm(__classid(TfrmWS2812OneForAll), &frmWS2812OneForAll);
 		Application->CreateForm(__classid(TfrmWS2812AudioVisualisation), &frmWS2812AudioVisualisation);
+		Application->CreateForm(__classid(TfrmWS2812SpectrumAnalyzer), &frmWS2812SpectrumAnalyzer);
 		if (appSettings.frmMain.startMinimizedToTray)
 			ShowWindow(Application->Handle, SW_HIDE);	// hide taskbar button; tray icon still shows
 		else
