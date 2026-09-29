@@ -49,9 +49,19 @@ public:
 	*/
 	bool PopLevel(AudioLevel &level);
 
+	enum { SAMPLE_HISTORY = 4096 };	///< mono samples kept for GetLatestSamples()
+
+	/** \brief Copy the most recent mono (L+R averaged) samples, oldest first
+		\param count max samples to copy, up to SAMPLE_HISTORY
+		\param sampleRate receives the capture sample rate (0 if not started yet)
+		\return number of samples copied; less than count until enough audio was captured
+	*/
+	unsigned int GetLatestSamples(float *out, unsigned int count, unsigned int &sampleRate);
+
 private:
 	static unsigned __stdcall ThreadProc(void *param);
 	void Run(void);
+	void AppendSamples(const BYTE *data, UINT32 frames, const WAVEFORMATEX *format, bool silent);
 
 	Mutex mutex;
 	HANDLE thread;
@@ -60,6 +70,10 @@ private:
 	std::string deviceId;
 	bool isInput;
 	Fifo<AudioLevel, 64> fifo;
+	float sampleHistory[SAMPLE_HISTORY];	///< ring buffer, guarded by mutex
+	unsigned int sampleWritePos;
+	unsigned int sampleCount;
+	unsigned int sampleRate;
 
 	WasapiLoopbackCapture(const WasapiLoopbackCapture&);
 	WasapiLoopbackCapture& operator=(const WasapiLoopbackCapture&);

@@ -187,12 +187,16 @@ object frmSettings: TfrmSettings
       end
     end
     object tsAudioVisualisation: TTabSheet
-      Caption = 'Audio visualisation'
+      Caption = 'Audio VU meter'
       ImageIndex = 3
       ExplicitLeft = 0
       ExplicitTop = 0
       ExplicitWidth = 0
       ExplicitHeight = 0
+    end
+    object tsSpectrumAnalyzer: TTabSheet
+      Caption = 'Audio Spectrum Analyzer'
+      ImageIndex = 4
     end
   end
 end

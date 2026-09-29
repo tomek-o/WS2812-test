@@ -21,6 +21,16 @@
 namespace
 {
 
+bool IsFloatFormat(const WAVEFORMATEX *format)
+{
+	if (format->wFormatTag == WAVE_FORMAT_EXTENSIBLE)
+	{
+		const WAVEFORMATEXTENSIBLE *ext = reinterpret_cast<const WAVEFORMATEXTENSIBLE *>(format);
+		return (ext->SubFormat.Data1 == WAVE_FORMAT_IEEE_FLOAT);
+	}
+	return (format->wFormatTag == WAVE_FORMAT_IEEE_FLOAT);
+}
+
 /** \brief Per-channel RMS of one interleaved packet; extra channels ignored */
 void ComputeRms(const BYTE *data, UINT32 frames, const WAVEFORMATEX *format, float &left, float &right)
 {
@@ -31,14 +41,7 @@ void ComputeRms(const BYTE *data, UINT32 frames, const WAVEFORMATEX *format, flo
 		return;
 	}
 
-	bool isFloat = (format->wFormatTag == WAVE_FORMAT_IEEE_FLOAT);
-
-	if (format->wFormatTag == WAVE_FORMAT_EXTENSIBLE)
-	{
-		const WAVEFORMATEXTENSIBLE *ext = reinterpret_cast<const WAVEFORMATEXTENSIBLE *>(format);
-
-		isFloat = (ext->SubFormat.Data1 == WAVE_FORMAT_IEEE_FLOAT);
-	}
+	bool isFloat = IsFloatFormat(format);
 
 	const UINT32 channels = format->nChannels;
 	const UINT32 rightChannel = (channels >= 2) ? 1 : 0;
@@ -97,7 +100,8 @@ std::vector<wchar_t> AnsiToWide(const std::string &ansi)
 
 //---------------------------------------------------------------------------
 WasapiLoopbackCapture::WasapiLoopbackCapture(void):
-	thread(NULL), stopEvent(NULL), running(false), isInput(false)
+	thread(NULL), stopEvent(NULL), running(false), isInput(false),
+	sampleWritePos(0), sampleCount(0), sampleRate(0)
 {
 }
 
@@ -113,6 +117,13 @@ bool WasapiLoopbackCapture::Start(const char *deviceId, bool isInput)
 
 	this->deviceId = (deviceId != NULL) ? deviceId : "";
 	this->isInput = isInput;
+
+	{
+		ScopedLock<Mutex> lock(mutex);
+		sampleWritePos = 0;
+		sampleCount = 0;
+		sampleRate = 0;
+	}
 
 	stopEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 	if (stopEvent == NULL)
@@ -159,6 +170,56 @@ bool WasapiLoopbackCapture::PopLevel(AudioLevel &level)
 	level = *item;
 	fifo.pop();
 	return true;
+}
+
+unsigned int WasapiLoopbackCapture::GetLatestSamples(float *out, unsigned int count, unsigned int &sampleRate)
+{
+	ScopedLock<Mutex> lock(mutex);
+	sampleRate = this->sampleRate;
+	if (count > sampleCount)
+		count = sampleCount;
+	unsigned int pos = (sampleWritePos + SAMPLE_HISTORY - count) % SAMPLE_HISTORY;
+	for (unsigned int i = 0; i < count; i++)
+	{
+		out[i] = sampleHistory[pos];
+		pos = (pos + 1) % SAMPLE_HISTORY;
+	}
+	return count;
+}
+
+void WasapiLoopbackCapture::AppendSamples(const BYTE *data, UINT32 frames, const WAVEFORMATEX *format, bool silent)
+{
+	const UINT32 channels = format->nChannels;
+	if (channels == 0)
+		return;
+	const UINT32 rightChannel = (channels >= 2) ? 1 : 0;
+	const bool isFloat32 = IsFloatFormat(format) && format->wBitsPerSample == 32;
+	const bool isShort16 = !IsFloatFormat(format) && format->wBitsPerSample == 16;
+	if (!silent && (data == NULL || (!isFloat32 && !isShort16)))
+		return;	// unsupported format, already reported by ComputeRms()
+
+	ScopedLock<Mutex> lock(mutex);
+	for (UINT32 i = 0; i < frames; ++i)
+	{
+		float sample = 0.0f;
+		if (!silent)
+		{
+			if (isFloat32)
+			{
+				const float *samples = reinterpret_cast<const float *>(data);
+				sample = (samples[i * channels] + samples[i * channels + rightChannel]) * 0.5f;
+			}
+			else
+			{
+				const short *samples = reinterpret_cast<const short *>(data);
+				sample = (samples[i * channels] + samples[i * channels + rightChannel]) / 65536.0f;
+			}
+		}
+		sampleHistory[sampleWritePos] = sample;
+		sampleWritePos = (sampleWritePos + 1) % SAMPLE_HISTORY;
+		if (sampleCount < SAMPLE_HISTORY)
+			sampleCount++;
+	}
 }
 
 unsigned __stdcall WasapiLoopbackCapture::ThreadProc(void *param)
@@ -256,6 +317,11 @@ void WasapiLoopbackCapture::Run(void)
 		LOG(PROMPT"Format: %u Hz, %u channels, %u bits, tag=0x%04X\n",
 			mixFormat->nSamplesPerSec, mixFormat->nChannels, mixFormat->wBitsPerSample, mixFormat->wFormatTag);
 
+		{
+			ScopedLock<Mutex> lock(mutex);
+			sampleRate = mixFormat->nSamplesPerSec;
+		}
+
 		// IMPORTANT:
 		// Do NOT use AUDCLNT_STREAMFLAGS_EVENTCALLBACK here.
 		// Windows 7 does not signal the event for event-driven
@@ -349,6 +415,8 @@ void WasapiLoopbackCapture::Run(void)
 				{
 					ComputeRms(data, framesAvailable, mixFormat, newSlot.left, newSlot.right);
 				}
+
+				AppendSamples(data, framesAvailable, mixFormat, (flags & AUDCLNT_BUFFERFLAGS_SILENT) != 0);
 
 				// Put level into FIFO.
 				{

@@ -14,6 +14,7 @@
 
 class TfraLogConf;
 class TfraAudioVisualisationConf;
+class TfraSpectrumAnalyzerConf;
 
 class TfrmSettings : public TForm
 {
@@ -25,6 +26,7 @@ __published:	// IDE-managed Components
 	TTabSheet *tsGeneral;
 	TTabSheet *tsLogging;
 	TTabSheet *tsAudioVisualisation;
+	TTabSheet *tsSpectrumAnalyzer;
 	TCheckBox *chbAlwaysOnTop;
 	TCheckBox *chbStartMinimizedToTray;
 	TCheckBox *chbAutostart;
@@ -51,6 +53,7 @@ public:		// User declarations
 	Settings tmpSettings;
 	TfraLogConf *fraLogConf;
 	TfraAudioVisualisationConf *fraAudioVisualisationConf;
+	TfraSpectrumAnalyzerConf *fraSpectrumAnalyzerConf;
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TfrmSettings *frmSettings;

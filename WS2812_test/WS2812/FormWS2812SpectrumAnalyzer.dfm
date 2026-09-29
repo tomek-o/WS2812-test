@@ -1,7 +1,7 @@
-object frmWS2812AudioVisualisation: TfrmWS2812AudioVisualisation
+object frmWS2812SpectrumAnalyzer: TfrmWS2812SpectrumAnalyzer
   Left = 0
   Top = 0
-  Caption = 'Audio VU meter'
+  Caption = 'Audio Spectrum Analyzer'
   ClientHeight = 262
   ClientWidth = 508
   Color = clBtnFace
@@ -83,7 +83,7 @@ object frmWS2812AudioVisualisation: TfrmWS2812AudioVisualisation
     Top = 35
     Width = 120
     Height = 25
-    Caption = 'Start VU meter'
+    Caption = 'Start analyzer'
     TabOrder = 3
     OnClick = btnStartClick
   end
@@ -92,7 +92,7 @@ object frmWS2812AudioVisualisation: TfrmWS2812AudioVisualisation
     Top = 35
     Width = 120
     Height = 25
-    Caption = 'Stop VU meter'
+    Caption = 'Stop analyzer'
     Enabled = False
     TabOrder = 4
     OnClick = btnStopClick

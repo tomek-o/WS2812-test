@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "FrameLogConf.h"
 #include "WS2812\FrameAudioVisualisationConf.h"
+#include "WS2812\FrameSpectrumAnalyzerConf.h"
 #include "common\Autostart.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -27,6 +28,10 @@ __fastcall TfrmSettings::TfrmSettings(TComponent* Owner)
 	fraAudioVisualisationConf = new TfraAudioVisualisationConf(tsAudioVisualisation, tmpSettings.audioVisualisation);
 	fraAudioVisualisationConf->Parent = tsAudioVisualisation;
 	fraAudioVisualisationConf->Visible = true;
+
+	fraSpectrumAnalyzerConf = new TfraSpectrumAnalyzerConf(tsSpectrumAnalyzer, tmpSettings.spectrumAnalyzer);
+	fraSpectrumAnalyzerConf->Parent = tsSpectrumAnalyzer;
+	fraSpectrumAnalyzerConf->Visible = true;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmSettings::FormShow(TObject *Sender)
@@ -38,6 +43,7 @@ void __fastcall TfrmSettings::FormShow(TObject *Sender)
 	chbAutostart->Checked = tmpSettings.frmMain.autostart;
 	fraLogConf->Load();
 	fraAudioVisualisationConf->Load();
+	fraSpectrumAnalyzerConf->Load();
 
 	{
 		// registration can go stale or be changed externally - offer to fix it up
@@ -99,6 +105,7 @@ void __fastcall TfrmSettings::btnApplyClick(TObject *Sender)
 {
 	fraLogConf->Apply();
 	fraAudioVisualisationConf->Apply();
+	fraSpectrumAnalyzerConf->Apply();
 
 	tmpSettings.frmMain.startMinimizedToTray = chbStartMinimizedToTray->Checked;
 

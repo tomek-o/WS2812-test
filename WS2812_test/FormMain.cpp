@@ -13,6 +13,7 @@
 #include "TabManager.h"
 #include "FormWS2812.h"
 #include "WS2812\FormWS2812AudioVisualisation.h"
+#include "WS2812\FormWS2812SpectrumAnalyzer.h"
 #include "WS2812\WS2812.h"
 #include "common\TrayIcon.h"
 
@@ -115,6 +116,7 @@ void __fastcall TfrmMain::actShowSettingsExecute(TObject *Sender)
 	if (frmLog->Visible)
 		frmLog->UpdateUi();
 	frmWS2812AudioVisualisation->UpdateUi();
+	frmWS2812SpectrumAnalyzer->UpdateUi();
 
 	{
 		AnsiString tmp;
@@ -198,6 +200,11 @@ void __fastcall TfrmMain::tmrStartupTimer(TObject *Sender)
 	if (appSettings.audioVisualisation.autoStart)
 	{
 		frmWS2812AudioVisualisation->StartCapture();
+	}
+
+	if (appSettings.spectrumAnalyzer.autoStart)
+	{
+		frmWS2812SpectrumAnalyzer->StartCapture();
 	}
 
 	UpdateLedCount();

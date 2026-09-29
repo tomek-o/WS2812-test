@@ -10,6 +10,7 @@
 #include "WS2812.h"
 #include "logging/LogConf.h"
 #include "WS2812/AudioVisualisationConf.h"
+#include "WS2812/SpectrumAnalyzerConf.h"
 #include "common/SettingsUtils.h"
 #include <vector>
 
@@ -86,6 +87,7 @@ public:
 		{}
 	} ws2812;
 	struct AudioVisualisationConf audioVisualisation;
+	struct SpectrumAnalyzerConf spectrumAnalyzer;
 private:
 	void UpdateFromJsonValue(const Json::Value &root);
 };

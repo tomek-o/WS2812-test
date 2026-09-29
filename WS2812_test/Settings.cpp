@@ -82,6 +82,7 @@ void Settings::UpdateFromJsonValue(const Json::Value &root)
 	}
 
 	audioVisualisation.fromJson(root["audioVisualisation"]);
+	spectrumAnalyzer.fromJson(root["spectrumAnalyzer"]);
 }
 
 enum SettingsUtils::ReadStatus Settings::Read(AnsiString asFileName)
@@ -146,6 +147,7 @@ int Settings::Write(AnsiString asFileName)
 	}
 
 	audioVisualisation.toJson(root["audioVisualisation"]);
+	spectrumAnalyzer.toJson(root["spectrumAnalyzer"]);
 
 	std::string outputConfig = writer.write( root );
 	return SettingsUtils::AtomicUpdateWithBackup(asFileName, outputConfig);
